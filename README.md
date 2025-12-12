@@ -1,4 +1,5 @@
 # DHL Shipping - Ứng dụng Web Quản lý Vận chuyển
+# Production domain: https://logistictransport.au
 
 Ứng dụng web full-stack để quản lý dịch vụ vận chuyển DHL, được xây dựng với React.js (Frontend) và Node.js/Express (Backend).
 
@@ -55,8 +56,8 @@
 
 ### Bước 1: Clone repository
 ```bash
-git clone <repository-url>
-cd DHLSHIPPING
+git clone https://github.com/PNreal/dropshiping.git
+cd dropshiping
 ```
 
 ### Bước 2: Cài đặt Backend
