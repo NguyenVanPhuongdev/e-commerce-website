@@ -1,12 +1,36 @@
 .hero-banner {
   width: 100%;
   position: relative;
-  height: 65vh;
-  min-height: 350px;
-  max-height: 550px;
+  height: 75vh;
+  min-height: 450px;
+  max-height: 700px;
   overflow: hidden;
   left: 0;
   right: 0;
+}
+
+/* Desktop - Tăng độ rộng và che phủ */
+@media (min-width: 1024px) {
+  .hero-banner {
+    height: 85vh;
+    min-height: 550px;
+    max-height: 900px;
+  }
+
+  .hero-slide {
+    width: 100%;
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+}
+
+/* Large Desktop - Tăng thêm cho màn hình lớn */
+@media (min-width: 1440px) {
+  .hero-banner {
+    height: 88vh;
+    min-height: 650px;
+    max-height: 1100px;
+  }
 }
 
 .hero-slider {

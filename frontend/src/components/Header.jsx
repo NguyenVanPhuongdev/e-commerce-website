@@ -16,6 +16,8 @@ const Header = () => {
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const [isStaffLoggedIn, setIsStaffLoggedIn] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showMobileServicesDropdown, setShowMobileServicesDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const searchRef = useRef(null);
@@ -105,13 +107,17 @@ const Header = () => {
           setShowMobileSearch(false);
         }
       }
+      // Đóng mobile menu nếu click bên ngoài
+      if (showMobileMenu && !event.target.closest('.mobile-menu') && !event.target.closest('.hamburger-btn')) {
+        setShowMobileMenu(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showMobileSearch, searchResults.length]);
+  }, [showMobileSearch, searchResults.length, showMobileMenu]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -288,11 +294,111 @@ const Header = () => {
           )}
           </div>
 
-          <button className="hamburger-btn" aria-label="Menu">
+          <button 
+            className="hamburger-btn" 
+            aria-label="Menu"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+          >
             <FontAwesomeIcon icon={faBars} className="hamburger-icon" />
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {showMobileMenu && (
+        <div className="mobile-menu">
+          <nav className="mobile-menu-nav">
+            <Link 
+              to="/" 
+              className={`mobile-menu-item ${isActive('/') ? 'active' : ''}`}
+              onClick={() => setShowMobileMenu(false)}
+            >
+              TRANG CHỦ
+            </Link>
+            <Link 
+              to="/gioi-thieu" 
+              className={`mobile-menu-item ${isActive('/gioi-thieu') ? 'active' : ''}`}
+              onClick={() => setShowMobileMenu(false)}
+            >
+              GIỚI THIỆU
+            </Link>
+            <div className="mobile-menu-item-dropdown">
+              <div 
+                className={`mobile-menu-item ${isActive('/dich-vu') ? 'active' : ''}`}
+                onClick={() => setShowMobileServicesDropdown(!showMobileServicesDropdown)}
+              >
+                DỊCH VỤ
+                <span className="mobile-menu-arrow">{showMobileServicesDropdown ? '▲' : '▼'}</span>
+              </div>
+              {showMobileServicesDropdown && (
+                <div className="mobile-menu-dropdown">
+                  <Link 
+                    to="/dich-vu/van-chuyen-hang-uc-vietnam" 
+                    className="mobile-menu-dropdown-item"
+                    onClick={() => {
+                      setShowMobileMenu(false);
+                      setShowMobileServicesDropdown(false);
+                    }}
+                  >
+                    Dịch vụ vận chuyển hàng từ úc về Việt Nam
+                  </Link>
+                  <Link 
+                    to="/dich-vu/drop-ship-hang-uc-vietnam" 
+                    className="mobile-menu-dropdown-item"
+                    onClick={() => {
+                      setShowMobileMenu(false);
+                      setShowMobileServicesDropdown(false);
+                    }}
+                  >
+                    Dịch vụ Drop Ship hàng từ Úc về Việt Nam
+                  </Link>
+                  <Link 
+                    to="/dich-vu/order-hang-uc-chinh-hang" 
+                    className="mobile-menu-dropdown-item"
+                    onClick={() => {
+                      setShowMobileMenu(false);
+                      setShowMobileServicesDropdown(false);
+                    }}
+                  >
+                    Dịch vụ Order hàng úc chính hãng giá tốt
+                  </Link>
+                </div>
+              )}
+            </div>
+            <Link 
+              to="/tin-tuc" 
+              className={`mobile-menu-item ${isActive('/tin-tuc') ? 'active' : ''}`}
+              onClick={() => setShowMobileMenu(false)}
+            >
+              TIN TỨC
+            </Link>
+            <Link 
+              to="/hang-order" 
+              className={`mobile-menu-item ${isActive('/hang-order') ? 'active' : ''}`}
+              onClick={() => setShowMobileMenu(false)}
+            >
+              HÀNG ORDER
+            </Link>
+            <Link 
+              to="/tracking" 
+              className={`mobile-menu-item ${isActive('/tracking') ? 'active' : ''}`}
+              onClick={() => setShowMobileMenu(false)}
+            >
+              TRACKING
+            </Link>
+            {isStaffLoggedIn && (
+              <Link 
+                to="/staff/dashboard" 
+                className={`mobile-menu-item ${isActive('/staff/dashboard') ? 'active' : ''}`}
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <FontAwesomeIcon icon={faTachometerAlt} style={{ marginRight: '5px' }} />
+                DASHBOARD
+              </Link>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 };

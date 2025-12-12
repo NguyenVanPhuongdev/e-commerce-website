@@ -28,25 +28,30 @@ const Footer = () => {
     countdown,
     isCounting,
     setOrderAmount,
+    setSelectedRates,
     setShowBottomBar,
     startCountdown
   } = useItemExport();
   const isItemExportPage = location.pathname.startsWith('/xuat-hang/item/');
   const [balance, setBalance] = useState(0);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
 
-  // Tự động hiển thị thanh khi vào trang item export và có item
+  // Chỉ hiển thị thanh khi đã chọn sản phẩm
   useEffect(() => {
-    if (isItemExportPage && item) {
-      setShowBottomBar(true);
-    } else if (!isItemExportPage) {
+    if (!isItemExportPage) {
       setShowBottomBar(false);
+      return;
     }
-  }, [isItemExportPage, item, setShowBottomBar]);
-
-  // Tự động hiển thị thanh khi chọn sản phẩm
-  useEffect(() => {
-    if (isItemExportPage && item && selectedRates && selectedRates.length > 0) {
+    
+    // Chỉ hiển thị khi đã chọn ít nhất một sản phẩm hợp lệ
+    const validRates = selectedRates && Array.isArray(selectedRates) 
+      ? selectedRates.filter(rate => ['A', 'B', 'C', 'D'].includes(rate))
+      : [];
+    
+    if (item && validRates.length > 0) {
       setShowBottomBar(true);
+    } else {
+      setShowBottomBar(false);
     }
   }, [isItemExportPage, item, selectedRates, setShowBottomBar]);
 
@@ -217,7 +222,17 @@ const Footer = () => {
         window.dispatchEvent(new CustomEvent('itemExportSuccess', { 
           detail: { itemId: item?.id } 
         }));
-        alert('Xuất đơn thành công!');
+        // Hiển thị notification tự động nhảy xuống
+        setShowSuccessNotification(true);
+        // Tự động ẩn sau 3 giây
+        setTimeout(() => {
+          setShowSuccessNotification(false);
+        }, 3000);
+        // Tự động ẩn thanh bottom sheet khi xuất đơn thành công
+        setShowBottomBar(false);
+        // Reset lựa chọn sản phẩm và số tiền
+        setSelectedRates([]);
+        setOrderAmount('');
       } else {
         // Reload balance ngay lập tức để đảm bảo số dư được cập nhật
         await loadUserBalance();
@@ -225,7 +240,17 @@ const Footer = () => {
         window.dispatchEvent(new CustomEvent('itemExportSuccess', { 
           detail: { itemId: item?.id } 
         }));
-        alert(response.data?.message || 'Xuất đơn thành công!');
+        // Hiển thị notification tự động nhảy xuống
+        setShowSuccessNotification(true);
+        // Tự động ẩn sau 3 giây
+        setTimeout(() => {
+          setShowSuccessNotification(false);
+        }, 3000);
+        // Tự động ẩn thanh bottom sheet khi xuất đơn thành công
+        setShowBottomBar(false);
+        // Reset lựa chọn sản phẩm và số tiền
+        setSelectedRates([]);
+        setOrderAmount('');
         // Không bắt đầu countdown - cho phép xuất đơn tiếp theo ngay lập tức
       }
     } catch (error) {
@@ -249,6 +274,15 @@ const Footer = () => {
 
   return (
     <footer className="footer">
+      {/* Success Notification */}
+      {showSuccessNotification && (
+        <div className="success-notification">
+          <div className="success-notification-content">
+            <span className="success-icon">✓</span>
+            <span className="success-message">Xuất đơn thành công!</span>
+          </div>
+        </div>
+      )}
       {isItemExportPage && item && (
         <>
           {showBottomBar ? (

@@ -194,9 +194,16 @@ const Tracking = () => {
         )}
 
         {/* Account Summary */}
-        <div className="summary-greeting">
+        <div className="summary-header-row">
           <h3 className="summary-greeting-text">
             Xin chào, <span className="summary-user-name">{userInfo.fullName || username}</span>
+          </h3>
+          <h3 
+            className="detail-info-title" 
+            onClick={() => navigate('/account/personal-info')}
+            style={{ cursor: 'pointer' }}
+          >
+            Thông tin chi tiết
           </h3>
         </div>
         <div className="account-summary">
@@ -236,7 +243,7 @@ const Tracking = () => {
               </div>
               <span className="quick-access-text">Lịch sử đơn hàng</span>
             </div>
-            <div className="quick-access-item" onClick={() => navigate('/account/personal-info')}>
+            <div className="quick-access-item" onClick={() => navigate('/account/new')}>
               <div className="quick-access-icon">
                 <FontAwesomeIcon icon={faUser} />
               </div>

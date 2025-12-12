@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0', // Cho phép truy cập từ mạng nội bộ / Allow access from local network
-    port: 5173, // Port mặc định của Vite / Default Vite port
+    port: 3000, // Port cho ứng dụng web / Port for web application (có thể thay đổi thành port khác / can change to other port)
     strictPort: false, // Tự động tìm port khác nếu port bị chiếm / Auto find another port if occupied
     open: false, // Không tự động mở browser / Don't auto open browser
     proxy: {

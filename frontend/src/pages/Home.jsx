@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeroBanner from '../components/HeroBanner';
 import FooterContent from '../components/FooterContent';
@@ -20,8 +20,8 @@ const e6Image = '/images/banner/e6.svg';
 import './Home.css';
 
 const sloganTexts = [
-  'BẠN TRAO TÔI NIỀM TIN CHÚNG TÔI TRAO BẠN SỰ HÀI LÒNG!',
-  'Sản phẩm của chúng tôi'
+  'Sản phẩm của chúng tôi',
+  'BẠN TRAO TÔI NIỀM TIN CHÚNG TÔI TRAO BẠN SỰ HÀI LÒNG!'
 ];
 
 const Home = () => {
@@ -29,11 +29,6 @@ const Home = () => {
   const [news, setNews] = useState([]);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [expandedNews, setExpandedNews] = useState({});
-  const [currentBrandIndex, setCurrentBrandIndex] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-  const brandsContainerRef = useRef(null);
   const [contactForm, setContactForm] = useState({
     fullName: '',
     email: '',
@@ -42,57 +37,12 @@ const Home = () => {
   });
 
   const brandImages = [e1Image, e2Image, e3Image, e4Image, e5Image, e6Image].filter(img => img !== null);
-  // Lặp lại để tạo dãy dài
-  const extendedBrandImages = brandImages.length > 0 ? [...brandImages, ...brandImages, ...brandImages] : [];
 
   useEffect(() => {
     // Sử dụng mock data (không cần backend)
     setServices(mockServices.slice(0, 6)); // Lấy 6 dịch vụ đầu tiên
     setNews(mockNews.slice(0, 3)); // Lấy 3 tin tức đầu tiên
   }, []);
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    const container = brandsContainerRef.current;
-    setStartX(e.pageX - container.offsetLeft);
-    setScrollLeft(container.scrollLeft);
-    container.style.cursor = 'grabbing';
-    container.style.scrollBehavior = 'auto';
-    container.style.userSelect = 'none';
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-    const container = brandsContainerRef.current;
-    if (container) {
-      container.style.cursor = 'grab';
-      container.style.scrollBehavior = 'smooth';
-      container.style.userSelect = '';
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    const container = brandsContainerRef.current;
-    if (container) {
-      container.style.cursor = 'grab';
-      container.style.scrollBehavior = 'smooth';
-      container.style.userSelect = '';
-    }
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging || !brandsContainerRef.current) return;
-    e.preventDefault();
-    const container = brandsContainerRef.current;
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 0.8; // Giảm tốc độ để mượt hơn
-    
-    // Sử dụng requestAnimationFrame để mượt hơn
-    if (container) {
-      container.scrollLeft = scrollLeft - walk;
-    }
-  };
 
   const handleContactChange = (e) => {
     setContactForm({
@@ -413,6 +363,7 @@ const Home = () => {
 
         {/* Brands Section */}
         <section className="brands-section">
+          <h2 className="brands-section-title">ORDER HÀNG TỪ CÁC THƯƠNG HIỆU NỔI TIẾNG</h2>
           {/* Smooth Scrolling Brand Logos Carousel */}
           <div className="brands-logo-carousel">
             <div className="brands-logo-track">
@@ -421,31 +372,6 @@ const Home = () => {
                   <img src={logo} alt={`Brand ${(index % brandImages.length) + 1}`} loading="lazy" decoding="async" />
                 </div>
               ))}
-            </div>
-          </div>
-          
-          <div className="brands-container">
-            <div 
-              className="brands-scroll-wrapper"
-              ref={brandsContainerRef}
-              onMouseDown={handleMouseDown}
-              onMouseLeave={handleMouseLeave}
-              onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-            >
-              <div className="brands-scroll-track">
-                {extendedBrandImages.length > 0 ? (
-                  extendedBrandImages.map((image, index) => (
-                    <div key={index} className="brand-item">
-                      <img src={image} alt={`Brand ${(index % brandImages.length) + 1}`} loading="lazy" decoding="async" />
-                    </div>
-                  ))
-                ) : (
-                  <div style={{ width: '100%', textAlign: 'center', color: '#999', padding: '40px' }}>
-                    <p>Brand images will appear here</p>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </section>

@@ -223,7 +223,7 @@
 /* Mobile screens (below 768px) */
 @media (max-width: 768px) {
   .order-page {
-    padding: 80px 15px 0;
+    padding: 120px 15px 0;
   }
   
   .order-container {
@@ -270,7 +270,7 @@
 /* Very small mobile (below 480px) */
 @media (max-width: 480px) {
   .order-page {
-    padding: 70px 10px 0;
+    padding: 120px 10px 0;
   }
   
   .order-title {

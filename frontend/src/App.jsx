@@ -47,6 +47,7 @@ const ProductsShowcase = lazy(() => import('./pages/ProductsShowcase'));
 const EditLotteryResults = lazy(() => import('./pages/EditLotteryResults'));
 const BettingHistory = lazy(() => import('./pages/BettingHistory'));
 const CategoryManagement = lazy(() => import('./pages/CategoryManagement'));
+const AccountNew = lazy(() => import('./pages/AccountNew'));
 
 // Loading component
 const LoadingFallback = () => (
@@ -118,6 +119,7 @@ const pageTitles = {
   '/account/import-history': 'Lịch Sử Nhập Hàng - DHL Shipping',
   '/account/export-history': 'Lịch Sử Xuất Hàng - DHL Shipping',
   '/account/customer-support': 'Hỗ Trợ Khách Hàng - DHL Shipping',
+  '/account/new': 'Tài Khoản - DHL Shipping',
 };
 
 function AppContent() {
@@ -265,6 +267,14 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <Tracking />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/account/new" 
+              element={
+                <ProtectedRoute>
+                  <AccountNew />
                 </ProtectedRoute>
               } 
             />

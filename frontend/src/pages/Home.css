@@ -38,6 +38,8 @@
   max-width: 1400px;
   margin: 0 auto;
   text-align: center;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .products-title {
@@ -50,13 +52,14 @@
 
 .products-text-slider {
   width: 100%;
-  min-height: 40px;
+  min-height: 50px;
   margin: 0 0 20px 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px 0;
 }
 
 .products-text-slide {
@@ -64,7 +67,7 @@
   width: 100%;
   top: 50%;
   left: 0;
-  transform: translateY(-65%); /* Dịch lên trên một chút */
+  transform: translateY(-50%);
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
   font-size: 18px;
@@ -73,6 +76,8 @@
   text-align: center;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   white-space: nowrap;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 
 .products-text-slide.active {
@@ -80,8 +85,8 @@
 }
 
 /* Style cho "Sản phẩm của chúng tôi" - lớn hơn */
-.products-text-slide:nth-child(2) {
-  font-size: 30px; /* Nhỏ hơn một chút (từ 32px xuống 30px) */
+.products-text-slide:nth-child(1) {
+  font-size: 36px; /* Tăng kích thước */
   font-weight: 600;
 /* Thêm background màu #f8f9fa */
   color: #f8f9fa; /* Đổi màu chữ thành đen để dễ đọc trên nền sáng */
@@ -259,7 +264,7 @@
   overflow: hidden;
   position: relative;
   max-width: 400.1px;
-  margin: 0 0; /* Căn giữa ảnh */
+  margin: 0 auto; /* Căn giữa ảnh */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -280,7 +285,10 @@
   color: #333;
   text-align: center;
   line-height: 1.4;
-  margin-top: 0; /* Xóa margin-top */
+  margin: 0 auto;
+  max-width: 400.1px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Services Section - Vertical Layout */
@@ -786,6 +794,16 @@
   background: #fff;
 }
 
+.brands-section-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #d40511;
+  text-align: center;
+  margin: 0 0 30px 0;
+  padding: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
 /* Smooth Scrolling Brand Logos Carousel */
 .brands-logo-carousel {
   width: 100%;
@@ -883,6 +901,9 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
+  display: flex;
+  align-items: center;
+  width: max-content;
 }
 
 .brands-scroll-wrapper::-webkit-scrollbar {
@@ -892,17 +913,6 @@
 .brands-scroll-wrapper:active {
   cursor: grabbing;
   scroll-behavior: auto;
-}
-
-.brands-scroll-track {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  will-change: transform;
-  min-height: 220px;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translateZ(4);
 }
 
 .brand-item {
@@ -1219,6 +1229,12 @@
   .brands-section {
     padding: 40px 15px;
   }
+
+  .brands-section-title {
+    font-size: 22px;
+    margin: 0 0 20px 0;
+    padding: 0 15px;
+  }
   
   .brands-logo-carousel {
     margin-bottom: 30px;
@@ -1259,6 +1275,12 @@
 }
 
 @media (max-width: 480px) {
+  .brands-section-title {
+    font-size: 18px;
+    margin: 0 0 15px 0;
+    padding: 0 10px;
+  }
+
   .brands-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1453,6 +1475,27 @@
     padding: 16px 0px 0px; /* Giữ nguyên padding trên màn hình nhỏ */
   }
 
+  .products-header {
+    padding: 20px 0px 15px 0px;
+    overflow: visible;
+  }
+
+  .products-header-content {
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .products-title {
+    margin: 0 0 10px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 0 15px;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: keep-all;
+  }
+
   .section-title {
     font-size: 28px;
   }
@@ -1467,15 +1510,124 @@
     gap: 30px;
   }
 
+  .products-text-slider {
+    min-height: 60px;
+    padding: 15px 0;
+    overflow: visible;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .products-text-slide {
+    padding: 0 15px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: visible;
+    transform: translateY(-50%);
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .products-text-slide:nth-child(1) {
+    font-size: 22px;
+    padding: 6px 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
   .products-text-slide:nth-child(2) {
-    font-size: 24px;
+    font-size: 10px;
+    padding: 4px 8px;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  .products-text-buttons {
+    margin: 12px 0;
+    gap: 8px;
+    padding: 0 20px;
+  }
+
+  .products-text-button {
+    width: 24px;
+    height: 2px;
+    border-width: 1.5px;
   }
 }
 
 @media (max-width: 480px) {
-  .products-text-slide:nth-child(2) {
+  .products-header {
+    padding: 15px 0px 10px 0px;
+    overflow: visible;
+  }
+
+  .products-header-content {
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .products-title {
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    line-height: 1.4;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: keep-all;
+  }
+
+  .products-text-slider {
+    min-height: 50px;
+    padding: 12px 0;
+    overflow: visible;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .products-text-slide {
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: visible;
+    transform: translateY(-50%);
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .products-text-slide:nth-child(1) {
     font-size: 20px;
-    padding: 6px 12px;
+    padding: 5px 10px;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  .products-text-slide:nth-child(2) {
+    font-size: 9px;
+    padding: 3px 6px;
+    max-width: 100%;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: visible;
+  }
+
+  .products-text-buttons {
+    margin: 10px 0;
+    gap: 6px;
+    padding: 0 15px;
+  }
+
+  .products-text-button {
+    width: 20px;
+    height: 1.5px;
+    border-width: 1px;
   }
 }
 

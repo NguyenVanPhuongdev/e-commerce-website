@@ -2116,6 +2116,59 @@ router.post('/transactions/deposit', async (req, res) => {
   }
 });
 
+// Account summary (per user)
+router.get('/account/summary', async (req, res) => {
+  try {
+    const userId = req.query.userId || req.headers['user-id'];
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    const user = await db.getUserById(parseInt(userId));
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Transactions: sum deposits/withdraws that are completed
+    const transactions = await db.getTransactionsByUserId(parseInt(userId));
+    const sumAmount = (arr) => arr.reduce((acc, t) => acc + (parseFloat(t.amount) || 0), 0);
+
+    // Tính tất cả giao dịch, không chỉ completed (để user thấy ngay sau khi tạo)
+    const deposits = transactions.filter(
+      (t) => t.transaction_type === 'deposit' || t.transaction_type === 'add'
+    );
+    const withdraws = transactions.filter(
+      (t) => t.transaction_type === 'withdraw' || t.transaction_type === 'subtract'
+    );
+
+    const totalDeposit = sumAmount(deposits);
+    const totalWithdraw = sumAmount(withdraws);
+
+    // Orders: combine order_set and export_orders
+    const orders = await db.getOrdersByUserId(parseInt(userId));
+    const exportOrders = await db.getExportOrdersByUserId(parseInt(userId));
+
+    const totalOrderAmount = orders.reduce((acc, o) => acc + (parseFloat(o.total_amount) || 0), 0);
+    const totalExportAmount = exportOrders.reduce((acc, o) => acc + (parseFloat(o.total_amount) || 0), 0);
+    const totalMatched = totalOrderAmount + totalExportAmount;
+
+    const totalCount = orders.length + exportOrders.length;
+    const avgPerOrder = totalCount ? totalMatched / totalCount : 0;
+
+    res.json({
+      balance: user.balance || 0,
+      stats: {
+        perOrder: avgPerOrder,
+        deposit: totalDeposit,
+        withdraw: totalWithdraw,
+        matched: totalMatched
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get user bank info
 router.get('/users/:userId/info', async (req, res) => {
   try {

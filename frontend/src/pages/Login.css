@@ -156,7 +156,7 @@
 /* Mobile screens (below 768px) */
 @media (max-width: 768px) {
   .login-page {
-    padding: 20px 15px;
+    padding: 80px 15px 20px; /* thêm khoảng trống tránh header che tiêu đề */
   }
   
   .login-container {

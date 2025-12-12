@@ -3,15 +3,15 @@
 ## Trạng thái hiện tại:
 
 -  **Backend**: Đang chạy tại `http://localhost:5000` (có thể truy cập từ mạng nội bộ)
--  **Frontend**: Đang chạy tại `http://localhost:5173` (có thể truy cập từ mạng nội bộ)
+-  **Frontend**: Đang chạy tại `http://localhost:3000` (có thể truy cập từ mạng nội bộ)
 
 ## Truy cập từ mạng nội bộ / Network Access
 
 Sau khi khởi động servers, bạn sẽ thấy địa chỉ IP network trong console. Người khác có thể truy cập bằng:
-- Frontend: `http://[YOUR_IP]:5173`
+- Frontend: `http://[YOUR_IP]:3000`
 - Backend API: `http://[YOUR_IP]:5000`
 
-**Lưu ý:** Đảm bảo firewall cho phép port 5173 và 5000.
+**Lưu ý:** Đảm bảo firewall cho phép port 3000 và 5000.
 
 Xem chi tiết trong file `NETWORK_ACCESS.md`
 
@@ -42,7 +42,7 @@ Xem chi tiết trong file `NETWORK_ACCESS.md`
 
 ## Frontend:
 
-Mở trình duyệt và truy cập: **http://localhost:5173**
+Mở trình duyệt và truy cập: **http://localhost:3000**
 
 ## Chạy lại servers:
 
@@ -70,8 +70,8 @@ Nhấn `Ctrl + C` trong terminal đang chạy server để dừng.
 # Kiểm tra port 5000 (Backend)
 netstat -ano | findstr "5000"
 
-# Kiểm tra port 5173 (Frontend)
-netstat -ano | findstr "5173"
+# Kiểm tra port 3000 (Frontend)
+netstat -ano | findstr "3000"
 ```
 
 ## Test API:

@@ -41,9 +41,28 @@
   text-decoration: underline;
 }
 
-/* Summary Greeting */
-.summary-greeting {
-  margin-bottom: 20px;
+/* Summary Header Row */
+.summary-header-row {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.detail-info-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  text-align: right;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.detail-info-title:hover {
+  color: #d40511;
 }
 
 .summary-greeting-text {
@@ -51,6 +70,7 @@
   font-weight: 400;
   color: #333;
   margin: 0;
+  text-align: left;
 }
 
 .summary-user-name {
@@ -123,7 +143,7 @@
 
 .quick-access-icon {
   font-size: 32px;
-  color: #d40511;
+  color: #000;
   margin-bottom: 10px;
 }
 
@@ -131,6 +151,7 @@
   font-size: 14px;
   color: #333;
   text-align: center;
+  font-weight: 500;
 }
 
 /* Main Menu Section */
@@ -178,6 +199,7 @@
 .menu-text {
   font-size: 15px;
   color: #333;
+  font-weight: 500;
 }
 
 .menu-arrow {
@@ -455,12 +477,23 @@
     font-size: 20px;
   }
 
-  .summary-greeting {
+  .summary-header-row {
+    display: flex !important;
     margin-bottom: 15px;
+    flex-direction: row;
+    gap: 10px;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .detail-info-title {
+    font-size: 16px;
+    text-align: right;
   }
 
   .summary-greeting-text {
-    font-size: 18px;
+    font-size: 16px;
+    text-align: left;
   }
   
   .account-summary {
@@ -497,6 +530,10 @@
   
   .quick-access-text {
     font-size: 12px;
+  }
+  
+  .section-title {
+    text-align: left;
   }
   
   .menu-item {
