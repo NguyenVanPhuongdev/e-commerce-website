@@ -141,6 +141,7 @@ const AdminDashboard = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [productFormData, setProductFormData] = useState({
     name: '',
+    productCode: '',
     description: '',
     image: '',
     price: 0,
@@ -1260,6 +1261,7 @@ const AdminDashboard = () => {
     try {
       const formData = new FormData();
       formData.append('name', productFormData.name);
+      formData.append('productCode', productFormData.productCode || '');
       formData.append('description', productFormData.description || '');
       formData.append('price', productFormData.price);
       formData.append('category', productFormData.category || '');
@@ -1279,6 +1281,7 @@ const AdminDashboard = () => {
         setShowAddProductModal(false);
         setProductFormData({
           name: '',
+          productCode: '',
           description: '',
           image: '',
           price: 0,
@@ -1299,6 +1302,7 @@ const AdminDashboard = () => {
     try {
       const formData = new FormData();
       formData.append('name', productFormData.name);
+      formData.append('productCode', productFormData.productCode || '');
       formData.append('description', productFormData.description || '');
       formData.append('price', productFormData.price);
       formData.append('category', productFormData.category || '');
@@ -1358,9 +1362,10 @@ const AdminDashboard = () => {
       return;
     }
     
+    // Lưu raw value, không ép sang number ngay để tránh bị nhảy về 0 khi người dùng đang gõ
     setProductFormData({
       ...productFormData,
-      [name]: name === 'price' || name === 'stock' ? (parseFloat(value) || 0) : value
+      [name]: value
     });
   };
 
@@ -4455,7 +4460,6 @@ const AdminDashboard = () => {
                   value={formData.minWithdrawal}
                   onChange={handleFormChange}
                   min="0"
-                  step="0.01"
                 />
               </div>
               <div className="form-group">
@@ -4466,7 +4470,6 @@ const AdminDashboard = () => {
                   value={formData.maxWithdrawal}
                   onChange={handleFormChange}
                   min="0"
-                  step="0.01"
                 />
               </div>
               <div className="form-group">
@@ -4558,7 +4561,6 @@ const AdminDashboard = () => {
                   value={formData.minWithdrawal}
                   onChange={handleFormChange}
                   min="0"
-                  step="0.01"
                 />
               </div>
               <div className="form-group">
@@ -4569,7 +4571,6 @@ const AdminDashboard = () => {
                   value={formData.maxWithdrawal}
                   onChange={handleFormChange}
                   min="0"
-                  step="0.01"
                 />
               </div>
               <div className="form-group">
@@ -4895,7 +4896,6 @@ const AdminDashboard = () => {
                   onChange={handleTransactionFormChange}
                   required
                   min="0"
-                  step="0.01"
                   placeholder="Nhập số tiền"
                 />
               </div>
@@ -5022,6 +5022,16 @@ const AdminDashboard = () => {
                 />
               </div>
               <div className="form-group">
+                <label>Mã sản phẩm</label>
+                <input
+                  type="text"
+                  name="productCode"
+                  value={productFormData.productCode}
+                  onChange={handleProductFormChange}
+                  placeholder="Nhập mã sản phẩm (SKU, barcode, ...)"
+                />
+              </div>
+              <div className="form-group">
                 <label>Mô tả</label>
                 <textarea
                   name="description"
@@ -5050,7 +5060,6 @@ const AdminDashboard = () => {
                   onChange={handleProductFormChange}
                   required
                   min="0"
-                  step="0.01"
                   placeholder="Nhập giá sản phẩm"
                 />
               </div>
@@ -5116,6 +5125,16 @@ const AdminDashboard = () => {
                 />
               </div>
               <div className="form-group">
+                <label>Mã sản phẩm</label>
+                <input
+                  type="text"
+                  name="productCode"
+                  value={productFormData.productCode}
+                  onChange={handleProductFormChange}
+                  placeholder="Nhập mã sản phẩm (SKU, barcode, ...)"
+                />
+              </div>
+              <div className="form-group">
                 <label>Mô tả</label>
                 <textarea
                   name="description"
@@ -5163,7 +5182,6 @@ const AdminDashboard = () => {
                   onChange={handleProductFormChange}
                   required
                   min="0"
-                  step="0.01"
                   placeholder="Nhập giá sản phẩm"
                 />
               </div>
@@ -5411,7 +5429,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số A:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.A}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5430,7 +5447,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số B:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.B}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5449,7 +5465,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số C:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.C}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5468,7 +5483,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số D:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.D}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5612,7 +5626,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số A:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.A}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5631,7 +5644,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số B:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.B}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5650,7 +5662,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số C:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.C}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5669,7 +5680,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số D:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.D}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5831,7 +5841,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số A:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.A}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5850,7 +5859,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số B:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.B}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5869,7 +5877,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số C:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.C}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);
@@ -5888,7 +5895,6 @@ const AdminDashboard = () => {
                     <label style={{ display: 'block', marginBottom: '4px', fontSize: '14px', fontWeight: '500' }}>Hệ số D:</label>
                     <input
                       type="number"
-                      step="0.01"
                       value={pollFormData.rewardCoefficients.D}
                       onChange={(e) => {
                         const val = e.target.value === '' ? '' : parseFloat(e.target.value);

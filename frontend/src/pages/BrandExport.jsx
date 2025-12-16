@@ -438,7 +438,6 @@ const BrandExport = () => {
                       value={amounts[productIndex]}
                       onChange={(e) => handleAmountChange(productIndex, e.target.value)}
                       min="0"
-                      step="0.01"
                       onKeyDown={(e) => {
                         // Ngăn chặn nhập dấu trừ, dấu cộng, và chữ e/E (scientific notation)
                         if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === 'E') {
