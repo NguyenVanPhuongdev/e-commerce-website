@@ -140,7 +140,7 @@ const LinkBank = () => {
                 className="form-input"
                 value={formData.bank_name}
                 onChange={handleChange}
-                placeholder="VD: Vietcombank, Techcombank, BIDV..."
+                placeholder="VD: Westpac, ING..."
                 required
               />
             </div>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faWallet, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import FooterContent from '../components/FooterContent';
 import './Withdraw.css';
@@ -14,12 +14,19 @@ const Withdraw = () => {
   const [bankName, setBankName] = useState('');
   const [bankAccount, setBankAccount] = useState('');
   const [accountHolder, setAccountHolder] = useState('');
-  const [description, setDescription] = useState('');
   const [userBalance, setUserBalance] = useState(0);
   const [balanceLoading, setBalanceLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [isBankLinked, setIsBankLinked] = useState(false);
   const [withdrawalEnabled, setWithdrawalEnabled] = useState(true);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+  const showToast = (message, type = 'success') => {
+    setToast({ show: true, message, type });
+    setTimeout(() => {
+      setToast({ show: false, message: '', type: 'success' });
+    }, 3000);
+  };
 
   useEffect(() => {
     const userId = localStorage.getItem('userId');
@@ -135,8 +142,8 @@ const Withdraw = () => {
       return;
     }
 
-    if (!bankName.trim() || !bankAccount.trim() || !accountHolder.trim()) {
-      alert('Vui lòng điền đầy đủ thông tin ngân hàng');
+    if (!isBankLinked || !bankName.trim() || !bankAccount.trim() || !accountHolder.trim()) {
+      alert('Vui lòng liên kết ngân hàng trước khi rút tiền');
       return;
     }
 
@@ -162,23 +169,18 @@ const Withdraw = () => {
         bankName: bankName.trim(),
         bankAccount: bankAccount.trim(),
         accountHolder: accountHolder.trim(),
-        description: description.trim()
+        description: ''
       });
 
       if (response.data.success) {
-        alert('Yêu cầu rút tiền đã được gửi! Vui lòng chờ admin duyệt.');
+        showToast('Yêu cầu rút tiền đã được gửi! Vui lòng chờ Hệ Thống duyệt.');
         // Reset form
         setAmount('');
-        setDescription('');
-        // Only reset bank info if not linked
-        if (!isBankLinked) {
-          setBankName('');
-          setBankAccount('');
-          setAccountHolder('');
-        }
         // Reload balance để cập nhật số dư (nếu có thay đổi)
         loadUserBalance();
-        navigate('/account/withdrawal-history');
+        setTimeout(() => {
+          navigate('/account/withdrawal-history');
+        }, 2000);
       }
     } catch (error) {
       alert(error.response?.data?.error || 'Có lỗi xảy ra khi tạo yêu cầu rút tiền');
@@ -190,6 +192,14 @@ const Withdraw = () => {
 
   return (
     <div className="withdraw-page">
+      {/* Toast notification */}
+      {toast.show && (
+        <div className={`toast-notification toast-${toast.type}`}>
+          <FontAwesomeIcon icon={faCheckCircle} />
+          <span>{toast.message}</span>
+        </div>
+      )}
+      
       <div className="withdraw-container">
         <div className="withdraw-header">
           <button className="withdraw-back" onClick={handleBack}>
@@ -255,7 +265,7 @@ const Withdraw = () => {
           )}
 
           <form className="withdraw-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="form-group form-group-fullwidth">
               <label className="form-label">Số tiền rút *</label>
               <input
                 type="text"
@@ -299,56 +309,6 @@ const Withdraw = () => {
                 required
               />
               <small className="form-hint">Số tiền tối đa: {userBalance.toLocaleString('vi-VN')}</small>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Tên ngân hàng *</label>
-              <input
-                type="text"
-                className="form-input"
-                value={bankName}
-                onChange={(e) => setBankName(e.target.value)}
-                placeholder="VD: Vietcombank, Techcombank..."
-                required
-                disabled={isBankLinked}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Số tài khoản *</label>
-              <input
-                type="text"
-                className="form-input"
-                value={bankAccount}
-                onChange={(e) => setBankAccount(e.target.value)}
-                placeholder="Nhập số tài khoản ngân hàng"
-                required
-                disabled={isBankLinked}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Chủ tài khoản *</label>
-              <input
-                type="text"
-                className="form-input"
-                value={accountHolder}
-                onChange={(e) => setAccountHolder(e.target.value)}
-                placeholder="Nhập tên chủ tài khoản"
-                required
-                disabled={isBankLinked}
-              />
-            </div>
-
-            <div className="form-group form-group-fullwidth">
-              <label className="form-label">Ghi chú (tùy chọn)</label>
-              <textarea
-                className="form-textarea"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Nhập ghi chú nếu có"
-                rows="3"
-              />
             </div>
 
             <button 

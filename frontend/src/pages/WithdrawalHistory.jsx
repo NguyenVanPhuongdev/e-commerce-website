@@ -93,6 +93,17 @@ const WithdrawalHistory = () => {
     return text.replace(/\s*VNĐ/gi, '').trim();
   };
 
+  // Ẩn số tài khoản, chỉ hiện 3 số cuối (VD: 3456789 -> ****789)
+  const maskBankAccount = (text) => {
+    if (!text) return text;
+    // Tìm và thay thế số tài khoản (chuỗi số liên tiếp >= 4 ký tự)
+    return text.replace(/\b(\d{4,})\b/g, (match) => {
+      if (match.length <= 3) return match;
+      const lastThree = match.slice(-3);
+      return '****' + lastThree;
+    });
+  };
+
   return (
     <div className="withdrawal-history-page">
       <div className="withdrawal-history-container">
@@ -135,14 +146,10 @@ const WithdrawalHistory = () => {
                   <div className="transaction-body">
                     <div className="transaction-info-row">
                       <span className="transaction-label">Mô tả:</span>
-                      <span className="transaction-value">{removeVND(transaction.description) || '-'}</span>
+                      <span className="transaction-value">{maskBankAccount(removeVND(transaction.description)) || '-'}</span>
                     </div>
                     <div className="transaction-info-row">
-                      <span className="transaction-label">Số dư trước:</span>
-                      <span className="transaction-value">{parseFloat(transaction.balance_before || 0).toLocaleString('vi-VN')}</span>
-                    </div>
-                    <div className="transaction-info-row">
-                      <span className="transaction-label">Số dư sau:</span>
+                      <span className="transaction-label">Số dư hiện tại:</span>
                       <span className="transaction-value">{parseFloat(transaction.balance_after || 0).toLocaleString('vi-VN')}</span>
                     </div>
                     {transaction.admin_note && (
